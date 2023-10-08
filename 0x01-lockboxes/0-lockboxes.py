@@ -1,38 +1,27 @@
 #!/usr/bin/python3
 """
-an interview question of dealing with a list of lists
+You have n number of locked boxes in front of you.
+Each box is numbered sequentially
+from 0 to n - 1 and each box may
+contain keys to the other boxes.
 """
-
-
-def concat(boxesList, indexList):
-    """
-    concatenates the lists
-    specified by the indices in indexlist from the boxeslist
-    """
-    KeysList = []
-    for j in indexList:
-        if j < len(boxesList):
-            KeysList += boxesList[j]
-    return KeysList
 
 
 def canUnlockAll(boxes):
     """
-    check if a key for each box is contained in any of the boxes
-    function takes boxes, a list of lists
-    return: bool
+     a method that determines if all the boxes can be opened.
+
+    :param boxes:
+    :return: True or False
     """
+    if not boxes or type(boxes) is not list:
+        return False
 
-    index = 0
-    keysForBoxes = list(set(boxes[0]) | {0})
-    opened = True
-
-    while opened:
-        opened = False
-        for i in concat(boxes, keysForBoxes[index:]):
-            if i not in keysForBoxes:
-                keysForBoxes.append(i)
-                index += 1
-                opened = True
-
-    return len(boxes) == len(keysForBoxes)
+    unlocked = [0]
+    for n in unlocked:
+        for key in boxes[n]:
+            if key not in unlocked and key < len(boxes):
+                unlocked.append(key)
+    if len(unlocked) == len(boxes):
+        return True
+    return False
