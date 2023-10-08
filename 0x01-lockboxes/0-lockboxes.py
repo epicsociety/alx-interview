@@ -1,4 +1,4 @@
-#!/ur/bin/python3
+#!/usr/bin/python3
 """
 an interview question of dealing with a list of lists
 """
