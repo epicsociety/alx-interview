@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 Module contains interview question on
 minimum number of operationss to reach n characters
