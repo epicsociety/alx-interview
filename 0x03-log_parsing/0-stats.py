@@ -1,6 +1,11 @@
 #!/usr/bin/python3
 """ a script that reads stdin line by line and computes metrics """
 
+def print_stats(status_count, total_size):
+    for code in sorted(status_count.keys()):
+        if status_count[code]:
+            print(f"{code}: {status_count[code]}")
+    print(f"File size: {total_size}")
 
 if __name__ == '__main__':
     import sys
@@ -17,7 +22,7 @@ if __name__ == '__main__':
             match = re.match(pattern, line)
 
             if match:
-                ip_address, date, request, status_code, file_size = match.groups()  # noqa: E501
+                ip_address, date, request, status_code, file_size = match.groups()
 
                 if int(status_code) in status_count:
                     status_count[int(status_code)] += 1
@@ -26,10 +31,8 @@ if __name__ == '__main__':
                 count += 1
 
             if count % 10 == 0:
-                for code in sorted(status_count.keys()):
-                    print(f"{code}: {status_count[code]}")
-                print("File size: {}".format(total_size))
+                print_stats(status_count, total_size)
 
     except (KeyboardInterrupt, SystemExit):
-        print("File size: {}".format(total_size))
+        print_stats(status_count, total_size)
         raise
