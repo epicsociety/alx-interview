@@ -19,11 +19,11 @@ if __name__ == '__main__':
 
     try:
         for line in sys.stdin:
-            count += 1
             pattern = r'([\d.]+) - \[(.*?)\] "(.*?)" (\d+) (\d+)'
             match = re.match(pattern, line)
 
             if match:
+                count += 1
                 ip_address, date, request, status_code, file_size = match.groups()  # noqa: E501
 
                 try:
