@@ -17,7 +17,6 @@ if __name__ == '__main__':
             if status_count[code]:
                 print(f"{code}: {status_count[code]}")
 
-
     try:
         for line in sys.stdin:
             count += 1
