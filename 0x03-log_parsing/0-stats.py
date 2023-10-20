@@ -19,7 +19,7 @@ if __name__ == '__main__':
 
     try:
         for line in sys.stdin:
-            pattern = r'([\d.]+) - \[(.*?)\] "(.*?)" (\d+) (\d+)'
+            pattern = pattern = r'(.*?) - \[(.*?)\] "(.*?)" (\S+) (\S+)'
             match = re.match(pattern, line)
 
             if match:
