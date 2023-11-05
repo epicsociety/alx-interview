@@ -33,11 +33,22 @@ def solve_n_queens(board, col):
             solve_n_queens(board, col + 1)
 
 
-def main():
+def main(N):
     """ the main function """
+
+    board = [-1 for _ in range(N)]
+    solve_n_queens(board, 0)
+
+    if solutions:
+        for solution in solutions:
+            print_solution(solution)
+
+
+if __name__ == "__main__":
+
     global N, solutions
 
-    # Check if the correct number of arguments is provided
+    solutions = []
     if len(sys.argv) != 2:
         print("Usage: nqueens N")
         sys.exit(1)
@@ -52,15 +63,4 @@ def main():
         print("N must be at least 4")
         sys.exit(1)
 
-    solutions = []
-
-    board = [-1 for _ in range(N)]
-    solve_n_queens(board, 0)
-
-    if solutions:
-        for solution in solutions:
-            print_solution(solution)
-
-
-if __name__ == "__main__":
-    main()
+    main(N)
