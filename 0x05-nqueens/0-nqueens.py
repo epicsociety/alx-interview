@@ -1,66 +1,54 @@
 #!/usr/bin/python3
 """
-backtracking N queens
+N queens
 """
 
 import sys
 
+if len(sys.argv) != 2:
+    print('Usage: nqueens N')
+    exit(1)
 
-def is_safe(board, row, col):
-    for i in range(col):
-        if board[i] == row or \
-           board[i] == row - col + i or \
-           board[i] == row + col - i:
+try:
+    n_q = int(sys.argv[1])
+except ValueError:
+    print('N must be a number')
+    exit(1)
+
+if n_q < 4:
+    print('N must be at least 4')
+    exit(1)
+
+
+def solve_nqueens(n):
+    ''' self descriptive '''
+    if n == 0:
+        return [[]]
+    inner_solution = solve_nqueens(n - 1)
+    return [solution + [(n, i + 1)]
+            for i in range(n_q)
+            for solution in inner_solution
+            if safe_queen((n, i + 1), solution)]
+
+
+def attack_queen(square, queen):
+    '''self descriptive'''
+    (row1, col1) = square
+    (row2, col2) = queen
+    return (row1 == row2) or (col1 == col2) or\
+        abs(row1 - row2) == abs(col1 - col2)
+
+
+def safe_queen(sqr, queens):
+    '''self descriptive'''
+    for queen in queens:
+        if attack_queen(sqr, queen):
             return False
     return True
 
 
-def print_solution(board):
-    """ print the solution"""
-    print([[i, j] for i, j in enumerate(board)])
-
-
-def solve_n_queens(board, col):
-    """ solve the n queens"""
-    global solutions
-    if col >= N:
-        solutions.append(board.copy())
-        return
-
-    for i in range(N):
-        if is_safe(board, i, col):
-            board[col] = i
-            solve_n_queens(board, col + 1)
-
-
-def main(N):
-    """ the main function """
-
-    board = [-1 for _ in range(N)]
-    solve_n_queens(board, 0)
-
-    if solutions:
-        for solution in solutions:
-            print_solution(solution)
-
-
-if __name__ == "__main__":
-
-    global N, solutions
-
-    solutions = []
-    if len(sys.argv) != 2:
-        print("Usage: nqueens N")
-        sys.exit(1)
-
-    try:
-        N = int(sys.argv[1])
-    except ValueError:
-        print("N must be a number")
-        sys.exit(1)
-
-    if N < 4:
-        print("N must be at least 4")
-        sys.exit(1)
-
-    main(N)
+for answer in reversed(solve_nqueens(n_q)):
+    result = []
+    for p in [list(p) for p in answer]:
+        result.append([i - 1 for i in p])
+    print(result)
