@@ -10,10 +10,14 @@ const getCharacters = async () => {
     const response = await promisifiedRequest(apiUrl);
     const charsUrl = JSON.parse(response).characters;
 
+    const characterList = [];
     for (const url of charsUrl) {
       const characterResponse = await promisifiedRequest(url);
       const characterName = JSON.parse(characterResponse).name;
-      console.log(characterName);
+      characterList.push(characterName);
+    }
+    for (const char of characterList) {
+      console.log(char);
     }
   } catch (error) {
     console.error(error);
