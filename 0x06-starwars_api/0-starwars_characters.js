@@ -2,38 +2,39 @@
 
 const request = require('request');
 
-const getCharacters = async () => {
-  try {
-    const movieId = process.argv[2];
-    const apiUrl = `https://swapi-api.alx-tools.com/api/films/${movieId}`;
+const movieId = process.argv[2];
+const url = `https://swapi-api.alx-tools.com/api/films/${movieId}/`;
 
-    const response = await promisifiedRequest(apiUrl);
-    const charsUrl = JSON.parse(response).characters;
-
-    const characterList = [];
-    for (const url of charsUrl) {
-      const characterResponse = await promisifiedRequest(url);
-      const characterName = JSON.parse(characterResponse).name;
-      characterList.push(characterName);
-    }
-    for (const char of characterList) {
-      console.log(char);
-    }
-  } catch (error) {
+request.get(url, function (error, response, body) {
+  if (error) {
     console.error(error);
+    return;
   }
-};
+  const charactersUrls = JSON.parse(body).characters;
+  const fetchCharacterPromises = [];
 
-const promisifiedRequest = (url) => {
-  return new Promise((resolve, reject) => {
-    request.get(url, (error, response, body) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(body);
-      }
+  charactersUrls.forEach((character) => {
+    const fetchPromise = new Promise((resolve, reject) => {
+      request.get(character, function (error, response, body) {
+        if (error) {
+          console.error(error);
+          return;
+        }
+
+        const characterName = JSON.parse(body).name;
+        resolve(characterName);
+      });
     });
+    fetchCharacterPromises.push(fetchPromise);
   });
-};
 
-getCharacters();
+  Promise.all(fetchCharacterPromises)
+    .then((characterNames) => {
+      characterNames.forEach((name) => {
+        console.log(name);
+      });
+    })
+    .catch((error) => {
+      console.erro(error);
+    });
+});
