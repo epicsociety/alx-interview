@@ -4,3 +4,5 @@ The first positional argument passed is the Movie ID - example: 3 = “Return of
 Display one character name per line in the same order as the “characters” list in the /films/ endpoint
 Use the Star wars API
 Use the request module
+
+Check [AirBnb Formating Guide](https://github.com/airbnb/javascript)
