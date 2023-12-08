@@ -8,23 +8,15 @@ def makeChange(coins, total):
     if total <= 0:
         return 0
 
-    # Sort the coins in descending order
     coins.sort(reverse=True)
 
-    # Initialize a variable to count the number of coins
     num_coins = 0
 
-    # Iterate through each coin
     for coin in coins:
-        # While the current coin can be used to reduce the total
         while total >= coin:
-            # Reduce the total by the value of the current coin
             total -= coin
-            # Increment the coin count
             num_coins += 1
 
-    # If the total is reduced to 0, return the number of coins
-    # Otherwise, it means the total cannot be achieved with the given coins
     return num_coins if total == 0 else -1
 
 
